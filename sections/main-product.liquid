@@ -718,6 +718,31 @@
       {{ product | structured_data }}
     </script>
   </div>
+
+  <div class="custom-icon-text">
+    <div class="container">
+      {% for block in section.blocks %}
+        {% if block.type == 'icon_text_pair' %}
+          <div class="icon-text-pair">
+            {% if block.settings.icon %}
+              <img 
+                src="{{ block.settings.icon | img_url: '200x200' }}" 
+                alt="Icon for {{ block.settings.text | default: 'Text description' }}" 
+                class="icon-text-pair__icon" 
+                width="50"
+                height="50"
+              />
+            {% endif %}
+            {% if block.settings.text %}
+              <p class="icon-text-pair__text">{{ block.settings.text }}</p>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  
+
 </product-info>
 
 {% schema %}
@@ -738,6 +763,42 @@
           "id": "text",
           "default": "t:sections.main-product.blocks.text.settings.text.default",
           "label": "t:sections.main-product.blocks.text.settings.text.label"
+        },
+        {
+          "name": "Main Product",
+          "settings": [
+            {
+              "type": "text",
+              "id": "section_title",
+              "label": "Section Title",
+              "default": "Our Product"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "icon_text_pair",
+              "name": "Icon + Text Pair",
+              "settings": [
+                {
+                  "type": "image_picker",
+                  "id": "icon",
+                  "label": "Upload Icon"
+                },
+                {
+                  "type": "text",
+                  "id": "text",
+                  "label": "Short Description",
+                  "default": "Description for this icon."
+                }
+              ]
+            }
+          ],
+          "presets": [
+            {
+              "name": "Main Product",
+              "category": "Product"
+            }
+          ]
         },
         {
           "type": "select",
